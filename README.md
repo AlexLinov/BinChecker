@@ -1,6 +1,8 @@
 # Windows Service Permissions Checker
 
 This project contains a C program designed to check the permissions of binaries associated with running Windows services, focusing specifically on identifying executables where `BUILTIN\Users` have either `RX` (Read and Execute) or `F` (Full Control) permissions. Other scripts such as PowerUp can provide this identification but I figured why not utilize native commands and not trigger AV. See below
+
+
 ![image](https://github.com/AlexLinov/Binary-Hijacker/assets/74632540/5e894afb-3cb4-444e-9e5a-b9e6de43a760)
 
 
