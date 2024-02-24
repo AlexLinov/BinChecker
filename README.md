@@ -30,7 +30,7 @@ To compile the program, use the following mingw32 command:
 x86_64-w64-mingw32-gcc binary-hijack.c -o binary-hijack.exe
 
 > Pre-Compiled binary is included but feel free to do it yourself.
-
+```
 ## To-Do
 - Turn this into a more of an autopwn.
 - After identifying service binaries with Full Control, attempt to copy that binary to current directory and replace with simple net user add executable
