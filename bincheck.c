@@ -8,10 +8,11 @@ void executePowershellCommand() {
            "ForEach-Object { $_.PathName }\" > temp.txt");
 }
 
+// Adjusted to check for Full Control (F) permissions only
 int hasRequiredPermissionsForUsers(char *icaclsOutput) {
     char *usersPermissions = strstr(icaclsOutput, "BUILTIN\\Users");
     if (usersPermissions) {
-        return strstr(usersPermissions, "(F)") != NULL || strstr(usersPermissions, "(RX)") != NULL;
+        return strstr(usersPermissions, "(F)") != NULL; // Check for Full Control only
     }
     return 0;
 }
@@ -58,8 +59,9 @@ void checkPermissionsAndPrint() {
                     }
                 }
                 if (found) {
-                    // If the required permission is found, print the executable path
-                    printf("Path with BUILTIN\\Users RX or Full Control: %s\n", executablePath);
+                // If the required permission is found, print the executable path
+                printf("\x1b[32mBUILTIN\\Users Full Control: %s\n\x1b[0m", executablePath);
+}
                 }
                 fclose(fpIcacls);
             }
