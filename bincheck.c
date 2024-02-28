@@ -8,7 +8,6 @@ void executePowershellCommand() {
            "ForEach-Object { $_.PathName }\" > temp.txt");
 }
 
-// Adjusted to check for Full Control (F) permissions only
 int hasRequiredPermissionsForUsers(char *icaclsOutput) {
     char *usersPermissions = strstr(icaclsOutput, "BUILTIN\\Users");
     if (usersPermissions) {
@@ -26,11 +25,9 @@ void checkPermissionsAndPrint() {
     }
 
     while (fgets(line, sizeof(line), fp) != NULL) {
-        // Normalize the line to remove potential newlines
         char *newline = strchr(line, '\n');
         if (newline) *newline = 0; // Remove newline character
 
-        // Correctly handle paths that may be enclosed in quotes
         char *executablePath = line;
         if (line[0] == '\"') {
             executablePath++; // Skip the opening quote
@@ -47,7 +44,6 @@ void checkPermissionsAndPrint() {
             snprintf(icaclsCommand, sizeof(icaclsCommand), "icacls \"%s\" > %s 2>nul", executablePath, icaclsTempFile);
             system(icaclsCommand);
 
-            // Open and read from the temporary file to check for required permissions
             FILE *fpIcacls = fopen(icaclsTempFile, "r");
             if (fpIcacls) {
                 char icaclsOutput[4096];
