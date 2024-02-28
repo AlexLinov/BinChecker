@@ -58,11 +58,10 @@ void checkPermissionsAndPrint() {
                         break; // Required permission found, stop reading further
                     }
                 }
-                if (found) {
-                // If the required permission is found, print the executable path
+               if (found) {
+    // If the required permission is found, print the executable path
                 printf("\x1b[32mBUILTIN\\Users Full Control: %s\n\x1b[0m", executablePath);
 }
-                }
                 fclose(fpIcacls);
             }
             remove(icaclsTempFile); // Clean up the temporary file
