@@ -12,8 +12,28 @@ The Windows Service Permissions Checker scans running services on a Windows syst
 ## Features
 
 - Lists all running Windows services and their executable paths.
-- Checks and prints paths where `BUILTIN\Users` have `RX` or `F` permissions.
+- Checks and prints paths where `BUILTIN\Users` have `F` permissions.
 - Supports executables with paths that include spaces and are enclosed in quotes.
+
+## Command-Line Arguments Added
+
+### Quick Start
+- **Find all .exe files**: Run without options.
+  ```cmd
+  example.exe
+  ```
+- **Find the first .exe file only**: Use `-quick`.
+  ```cmd
+  example.exe -quick
+  ```
+- **Help**: Use `-help` for usage information.
+  ```cmd
+  example.exe -help
+  ```
+
+### Summary
+Now supporting command-line arguments, the tool lets users find `.exe` files where `BUILTIN\Users` have Full Control. Use `-first` to stop after finding the first such file, speeding up the search.
+
 
 ## Prerequisites
 
@@ -26,7 +46,7 @@ The Windows Service Permissions Checker scans running services on a Windows syst
 To compile the program, use the following mingw32 command:
 
 ```bash
-x86_64-w64-mingw32-gcc binary-hijack.c -o binary-hijack.exe
+x86_64-w64-mingw32-gcc input.c -o output.exe
 
 > Pre-Compiled binary is included but feel free to do it yourself.
 ```
