@@ -2,7 +2,7 @@
 
 This project contains a C program designed to check the permissions of binaries associated with running Windows services, focusing specifically on identifying executables where `BUILTIN\Users` have `F` (Full Control) permissions. Other scripts such as PowerUp can provide this identification but I figured why not utilize native commands and not trigger AV. Tested on Windows 11 w/ current Defender.
 
-![image](https://github.com/AlexLinov/Binary-Hijacker/assets/74632540/5e894afb-3cb4-444e-9e5a-b9e6de43a760)
+![image](https://github.com/AlexLinov/BinChecker/assets/74632540/f8704467-056f-4535-b742-75ee1c9141b6)
 
 
 ## Overview
