@@ -94,9 +94,9 @@ int main(int argc, char *argv[]) {
     findExecutablesAndCheckPermissionsRecursively(rootDirectory);
     
     if (stopAtFirstFound) {
-        printf("Search completed with '-quick' option.\n");
+        printf("Done.\n");
     } else {
-        printf("Search completed with '-full' option.\n");
+        printf("Done.\n");
     }
 
     return 0;
