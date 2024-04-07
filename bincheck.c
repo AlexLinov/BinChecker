@@ -7,15 +7,17 @@ int stopAtFirstFound = 0;
 
 void printHelp() {
     printf("Usage: example.exe [OPTION]\n");
-    printf("Searches for .exe and .dll files starting from the root of C:\\ for which BUILTIN\\Users have Full Control permissions.\n\n");
+    printf("Searches for binary from the root of C:\\ for which BUILTIN\\Users have Full Control permissions.\n\n");
     printf("Options:\n");
-    printf("  -quick\tStops search at the first .exe or .dll file found with the required permissions.\n");
+    printf("  -quick\tStops search at the first binary found with the required permissions.\n");
+    printf("  -full \tSearches for all .exe files with the required permissions. This option is time-consuming.\n");
     printf("  -help \tDisplays this help message and exits.\n\n");
-    printf("Without any OPTION, the program will search for all .exe and .dll files with the required permissions. Time Consuming\n");
+    printf("You must choose either -quick or -full to run this program.\n");
+
 }
 
 int checkPermissions(const char* filePath) {
-    char command[MAX_PATH + 50]; // Buffer (change if needed)
+    char command[32767 + 50]; // had some issues non-interactive shells
     snprintf(command, sizeof(command), "icacls \"%s\"", filePath);
     FILE *fpIcacls = _popen(command, "r");
     if (fpIcacls) {
@@ -35,10 +37,10 @@ int checkPermissions(const char* filePath) {
 int findExecutablesAndCheckPermissionsRecursively(const char* directory) {
     WIN32_FIND_DATA findFileData;
     HANDLE hFind = INVALID_HANDLE_VALUE;
-    char tempPath[MAX_PATH];
-    char searchPath[MAX_PATH];
+    char tempPath[32767];
+    char searchPath[32767];
 
-    snprintf(searchPath, MAX_PATH, "%s\\*", directory);
+    snprintf(searchPath, sizeof(searchPath), "\\\\?\\%s\\*", directory);
     hFind = FindFirstFile(searchPath, &findFileData);
     if (hFind == INVALID_HANDLE_VALUE) {
         return 0;
@@ -49,17 +51,17 @@ int findExecutablesAndCheckPermissionsRecursively(const char* directory) {
             continue;
         }
 
-        snprintf(tempPath, MAX_PATH, "%s\\%s", directory, findFileData.cFileName);
+        snprintf(tempPath, sizeof(tempPath), "\\\\?\\%s\\%s", directory, findFileData.cFileName);
 
         if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            if (findExecutablesAndCheckPermissionsRecursively(tempPath) && stopAtFirstFound) {
+            if (findExecutablesAndCheckPermissionsRecursively(tempPath + 4) && stopAtFirstFound) {
                 FindClose(hFind);
                 return 1;
             }
         } else {
             char *ext = strrchr(findFileData.cFileName, '.');
-            if (ext && (_stricmp(ext, ".exe") == 0 || _stricmp(ext, ".dll") == 0)) {
-                if (checkPermissions(tempPath) && stopAtFirstFound) {
+            if (ext && (_stricmp(ext, ".exe") == 0 )) {
+                if (checkPermissions(tempPath + 4) && stopAtFirstFound) { 
                     FindClose(hFind);
                     return 1;
                 }
@@ -72,21 +74,29 @@ int findExecutablesAndCheckPermissionsRecursively(const char* directory) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc > 1) {
-        if (strcmp(argv[1], "-help") == 0) {
-            printHelp();
-            return 0;
-        } else if (strcmp(argv[1], "-quick") == 0) {
-            stopAtFirstFound = 1;
-        } else {
-            printf("Invalid option. Use '-help' for usage information.\n");
-            return 1;
-        }
+    if (argc != 2 || strcmp(argv[1], "-help") == 0) {
+        printHelp();
+        return 0;
+    }
+
+    if (strcmp(argv[1], "-quick") == 0) {
+        printf("\x1b[33mRunning quick checks. Go grab a snack.\n\x1b[0m");
+        stopAtFirstFound = 1;
+    } else if (strcmp(argv[1], "-full") == 0) {
+        printf("\x1b[33mRunning full checks. This may take a while. Go grab a snack.\n\x1b[0m");
+        stopAtFirstFound = 0;
+    } else {
+        printf("Invalid option '%s'. Use '-help' for usage information.\n", argv[1]);
+        return 1;
     }
 
     const char* rootDirectory = "C:\\";
-    if (!findExecutablesAndCheckPermissionsRecursively(rootDirectory) && stopAtFirstFound) {
-        printf("No executable or DLL with required permissions found.\n");
+    findExecutablesAndCheckPermissionsRecursively(rootDirectory);
+    
+    if (stopAtFirstFound) {
+        printf("Search completed with '-quick' option.\n");
+    } else {
+        printf("Search completed with '-full' option.\n");
     }
 
     return 0;
