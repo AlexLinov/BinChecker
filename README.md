@@ -26,6 +26,9 @@ The Windows Service Permissions Checker scans running services on a Windows syst
   ```cmd
   example.exe -quick
   ```
+- **Find the first .exe file only**: Use `-full`.
+  ```cmd
+  example.exe -full  
 - **Help**: Use `-help` for usage information.
   ```cmd
   example.exe -help
