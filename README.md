@@ -35,7 +35,7 @@ The Windows Service Permissions Checker scans running services on a Windows syst
   ```
 
 ### Summary
-Now supporting command-line arguments, the tool lets users find `.exe` files where `BUILTIN\Users` have Full Control. Use `-first` to stop after finding the first such file, speeding up the search.
+Now supporting command-line arguments, the tool lets users find `.exe` files where `BUILTIN\Users` have Full Control. Use `-quick` to stop after finding the first such file, speeding up the search.
 
 
 ## Prerequisites
