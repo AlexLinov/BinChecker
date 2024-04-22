@@ -2,6 +2,8 @@
 
 This project contains a C program designed to check the permissions of binaries associated with running Windows services, focusing specifically on identifying executables where `BUILTIN\Users` have `F` (Full Control) permissions. Other scripts such as PowerUp can provide this identification but I figured why not utilize native commands and not trigger AV. Tested on Windows 11 w/ current Defender.
 
+Added functionality to search for directories with write access
+
 ![image](https://github.com/AlexLinov/BinChecker/assets/74632540/f8704467-056f-4535-b742-75ee1c9141b6)
 
 
@@ -19,6 +21,10 @@ The Windows Service Permissions Checker scans running services on a Windows syst
 
 ### Quick Start
 - **Find all .exe files**: Run without options.
+  ```cmd
+  example.exe
+  ```
+**Find directories with write permission**: Use `-write`.
   ```cmd
   example.exe
   ```
