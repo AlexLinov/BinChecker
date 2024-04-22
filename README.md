@@ -24,7 +24,7 @@ The Windows Service Permissions Checker scans running services on a Windows syst
   ```cmd
   example.exe
   ```
-**Find directories with write permission**: Use `-write`.
+- **Find directories with write permission**: Use `-write`.
   ```cmd
   example.exe
   ```
