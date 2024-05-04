@@ -111,6 +111,6 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    printf("Operation completed.\n");
+    printf("Done.\n");
     return 0;
 }
